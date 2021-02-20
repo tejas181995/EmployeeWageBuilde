@@ -25,7 +25,6 @@ public class EmpWageBuilder{
             default:
                 System.out.println("Employee is absent");
                 break;
-        }
-
+              }
     }
 }
