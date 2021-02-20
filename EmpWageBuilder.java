@@ -20,8 +20,6 @@ public class EmpWageBuilder{
                 MONTHLY_WAGE += DAILY_WAGE ;
                 DAY_COUNT += 1;
                 HOUR_COUNT += FULL_TIME_HRS;
-
-               
                 break;
             case 2:
                 System.out.println("Empoyee is part time");
@@ -33,8 +31,10 @@ public class EmpWageBuilder{
             default:
                 System.out.println("Employee is absent");
                 break;
+
                }
             }
             System.out.println("Monthly wage is: " + MONTHLY_WAGE);
+
     }
 }
