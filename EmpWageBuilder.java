@@ -1,40 +1,54 @@
-public class EmpWageBuilder{
-    public static void main(String []args){
-        System.out.println("Welcome to Employee Wage");
-        int FULL_TIME_HRS = 8;
-        int PART_TIME_HRS = 4;
-        int WAGE_PER_HR = 20;
-        int DAYS_OF_MONTH = 20;
-        int DAY_COUNT = 0;
-        int HOUR_COUNT = 0;
-        int MONTHLY_WAGE = 0;
-        int DAILY_WAGE;
+class Employee{
+    int empWagePerHr, dailyWage, totalWage, totalWorkingHrs, empStatus;
 
-        while((DAY_COUNT <= DAYS_OF_MONTH) || (HOUR_COUNT <= 100) ){
-        int empCheck = (int)Math.floor(Math.random() * 10) % 3;
-        
-        switch(empCheck) {
-            case 1:
-                System.out.println("Employee is full time");
-                DAILY_WAGE = FULL_TIME_HRS * WAGE_PER_HR;
-                MONTHLY_WAGE += DAILY_WAGE ;
-                DAY_COUNT += 1;
-                HOUR_COUNT += FULL_TIME_HRS;
-                break;
-            case 2:
-                System.out.println("Empoyee is part time");
-                DAILY_WAGE = PART_TIME_HRS * WAGE_PER_HR;
-                MONTHLY_WAGE += DAILY_WAGE; 
-                DAY_COUNT += 1;
-                HOUR_COUNT += PART_TIME_HRS;
-                break;
-            default:
-                System.out.println("Employee is absent");
-                break;
-
-               }
-            }
-            System.out.println("Monthly wage is: " + MONTHLY_WAGE);
-
+    public int getEmpStatus(){
+        return (int) (Math.floor(Math.random() * 10) % 3);
+    }
+    public int getDailyWage(int empWagePerHr, int workingHrs){
+        return empWagePerHr * workingHrs;
+    }
+    public int increamentWage(int increament){
+        this.totalWage += increament;
+        return this.totalWage;
+    }
+    public int increamentWorkingHrs(int increament){
+        this.totalWorkingHrs += increament;
+        return this.totalWorkingHrs;
     }
 }
+class EmpWageBuilder{
+    public static final int EMP_WAGE_PER_HR = 20;
+    public static final int EMP_PART_TIME_HRS = 4;
+    public static final int EMP_FULL_TIME_HRS = 8;
+
+    public static final int EMP_ABSENT = 0;
+    public static final int EMP_FULL_TIME = 1;
+    public static final int EMP_PART_TIME= 2;
+
+    public static void main(String[] args) {
+        int dailyWage = 0, totalWage = 0, dayCount = 0, hourCount = 0, maxHours = 100, maxDays = 20;
+        Employee employee = new Employee();
+        while(dayCount < maxDays || hourCount < maxHours){
+             switch(employee.getEmpStatus()){
+                    case EMP_ABSENT:
+                        System.out.println("Employee is absent");
+                        break;
+                    case EMP_FULL_TIME:
+                        dailyWage = employee.getDailyWage(EMP_WAGE_PER_HR, EMP_FULL_TIME_HRS);
+                        System.out.println("daily wage of full time employee: " + dailyWage);
+                        hourCount = employee.increamentWorkingHrs(EMP_FULL_TIME_HRS);
+                        break;
+                    case EMP_PART_TIME:
+                        dailyWage= employee.getDailyWage(EMP_WAGE_PER_HR, EMP_PART_TIME_HRS);
+                        System.out.println("daily wage of part time employee: " + dailyWage);
+                        hourCount = employee.increamentWorkingHrs(EMP_PART_TIME_HRS);
+                        break;
+                }
+                totalWage = employee.increamentWage(dailyWage);
+                dayCount++;
+       
+        }
+        System.out.println("total wage of employee is: " + totalWage);
+    }
+}
+
