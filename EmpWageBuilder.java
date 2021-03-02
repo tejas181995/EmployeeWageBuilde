@@ -62,13 +62,10 @@ public class EmpWage implements IComputeEmpWage{
 
 	public int computeWage(CompanyEmpWage companyEmpWage){
 
-		
 		int totalWorkingDays = 0;
 		int totalEmpHrs = 0;
 		int empHrs = 0;
 		int empWage = 0;
-
-		
 		while ( totalWorkingDays < companyEmpWage.daysInMonth && totalEmpHrs <= companyEmpWage.maxHrs ) {
 
 			int empCheck =(int) Math.floor(Math.random() * 10) % 3;
@@ -88,9 +85,11 @@ public class EmpWage implements IComputeEmpWage{
 		return totalEmpHrs * companyEmpWage.empWagePerHr;
 	}
 
-	public static void main(String[] args){
+	public int getTotalWage(String companyName) {
+		return companyToEmpWageMap.get(companyName).totalEmpWage;
+	}
 
-		System.out.println("Welcome to Employee Wage Computation");
+	public static void main(String[] args){
 
 			EmpWage empwage = new EmpWage();
 
@@ -98,5 +97,8 @@ public class EmpWage implements IComputeEmpWage{
 			empwage.addCompanyWage("BigBazaar", 25, 14, 40);
 			empwage.addCompanyWage("VishalMegaMart", 20, 12, 40);
 			empwage.computeWage();
+			System.out.println("Total Wage for Dmart : "+empwage.getTotalWage("Dmart"));
+			System.out.println("Total Wage for BigBazaar : "+empwage.getTotalWage("BigBazaar"));
+			System.out.println("Total Wage for VishalMegaMart : "+empwage.getTotalWage("VishalMegaMart"));
 	}
 }
