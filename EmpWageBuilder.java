@@ -1,3 +1,9 @@
+interface IComputeEmpWage {
+	public void addCompanyWage(String companyName, int empWagePerHr, int daysInMonth, int maxHrs);
+	public void computeWage();
+
+}
+
 class CompanyEmpWage {
 
 	public final String companyName;
@@ -24,7 +30,7 @@ class CompanyEmpWage {
 	}
 }
 
-public class EmpWage{
+public class EmpWage implements IComputeEmpWage{
 
 	public static final int IS_FULL_TIME = 1;
 	public static final int IS_PART_TIME = 2;
@@ -36,12 +42,12 @@ public class EmpWage{
 		companyEmpWageArray = new CompanyEmpWage[5];
 	}
 
-	private void addCompanyWage(String companyName, int empWagePerHr, int daysInMonth, int maxHrs){
+	public void addCompanyWage(String companyName, int empWagePerHr, int daysInMonth, int maxHrs) {
 		companyEmpWageArray[numOfCompany] = new CompanyEmpWage(companyName, empWagePerHr, daysInMonth, maxHrs);
 		numOfCompany++;
 	}
 
-	private void computeWage() {
+	public void computeWage() {
 		for (int i=0; i<numOfCompany; i++){
 			companyEmpWageArray[i].setTotalEmpWage(this.computeWage(companyEmpWageArray[i]));
 			System.out.println(companyEmpWageArray[i]);
@@ -50,13 +56,10 @@ public class EmpWage{
 
 	public int computeWage(CompanyEmpWage companyEmpWage){
 
-		
 		int totalWorkingDays = 0;
 		int totalEmpHrs = 0;
 		int empHrs = 0;
 		int empWage = 0;
-
-		
 		while ( totalWorkingDays < companyEmpWage.daysInMonth && totalEmpHrs <= companyEmpWage.maxHrs ) {
 
 			int empCheck =(int) Math.floor(Math.random() * 10) % 3;
@@ -77,7 +80,7 @@ public class EmpWage{
 
 	public static void main(String[] args){
 
-		System.out.println("Welcome to Employee Wage Computation ");
+		System.out.println("Welcome to Employee Wage Computation");
 
 			EmpWage empwage = new EmpWage();
 
