@@ -1,86 +1,82 @@
-class Employee{ 
-    public final int EMP_WAGE_PER_HR = 20;
-    public final int EMP_FULL_TIME_HRS = 8;
-    public final int EMP_PART_TIME_HRS = 4; 
-    int empWagePerHr, dailyWage, totalWage, totalWorkingHrs, empStatus;
+public class EmpWage {
 
-    public int getEmpStatus(){
-        return (int) (Math.floor(Math.random() * 10) % 3);
-    }
-    public int getDailyWage(int empWagePerHr, int workingHrs){
-        return empWagePerHr * workingHrs;
-    }
-    public int increamentWage(int increament){
-        this.totalWage += increament;
-        return this.totalWage;
-    }
-    public int increamentWorkingHrs(int increament){
-        this.totalWorkingHrs += increament;
-        return this.totalWorkingHrs;
-    }
-    public  void getInfo() {
-        System.out.println("employee");
-    }
+	//Constant
+	public static final int IS_FULL_TIME = 1;
+	public static final int IS_PART_TIME = 2;
+
+	//Variables
+	private final String companyName;
+	private final int empWagePerHr;
+	private final int daysInMonth;
+	private final int maxHrs;
+	private final int empHrsFullTime;
+	private final int empHrsPartTime;
+	private int totalEmpWage;
+
+
+	public EmpWage(String companyName, int empWagePerHr, int daysInMonth, int maxHrs, int empHrsFullTime, int empHrsPartTime) {
+
+		this.companyName = companyName;
+		this.empWagePerHr = empWagePerHr;
+		this.daysInMonth = daysInMonth;
+		this.maxHrs = maxHrs;
+		this.empHrsFullTime = empHrsFullTime;
+		this.empHrsPartTime = empHrsPartTime;
+
+	}
+
+	public void computeWage() {
+
+		//Variables
+		int totalWorkingDays = 0;
+		int totalEmpHrs = 0;
+		int empHrs = 0;
+		int empWage = 0;
+
+		//Computation
+		while ( totalWorkingDays < daysInMonth && totalEmpHrs <= maxHrs ) {
+
+			int empCheck =(int) Math.floor(Math.random() * 10) % 3;
+			if (empCheck == IS_FULL_TIME) {
+				empHrs = empHrsFullTime;
+			}else if (empCheck == IS_PART_TIME) {
+				empHrs = empHrsPartTime;
+			}else {
+				empHrs = 0;
+			}
+			totalWorkingDays ++;
+			empWage = empHrs * empWagePerHr;
+			totalEmpHrs += empHrs;
+			totalEmpWage += empWage;
+			System.out.println("Employee day: " + totalWorkingDays + " Emp Hr: " + empHrs + " Wage: "+empWage);
+		}
+
+	}
+
+	public String toString(){
+		return "Total Emp Wage for Company: " + companyName + " is: " + totalEmpWage ;
+	}
+
+
+
+	public static void main(String[] args){
+
+		System.out.println("Welcome to Employee Wage Computation ");
+ 		EmpWage Dmart = new EmpWage("Dmart", 20, 10, 50, 10, 5);
+		EmpWage BigBazaar = new EmpWage("BigBazaar", 25, 14, 40, 12, 6);
+		EmpWage VishalMegaMart = new EmpWage("VishalMegaMart", 20, 12, 40, 8, 4);
+
+		System.out.println("Employee of Dmart");
+		Dmart.computeWage();
+		System.out.println(Dmart);
+
+		System.out.println("Employee of BigBazaar");
+		BigBazaar.computeWage();
+		System.out.println(BigBazaar);
+
+		System.out.println("Employee of Vishal Mega Mart");
+		VishalMegaMart.computeWage();
+		System.out.println(VishalMegaMart);
+
+	}
 }
-class RelianceEmployee extends Employee{
-    public final int EMP_WAGE_PER_HR = 20;
-    public final int EMP_FULL_TIME_HRS = 12;
-    public final int EMP_PART_TIME_HRS = 6; 
-    public  void getInfo() {
-        System.out.println("Reliance employee");
-    }
-
-}
-class DmartEmployee extends Employee{
-    public final int EMP_WAGE_PER_HR = 30;
-    public final int EMP_FULL_TIME_HRS = 8;
-    public final int EMP_PART_TIME_HRS = 4; 
-    public  void getInfo() {
-        System.out.println("dmart employee");
-    }
-}
-
-class EmpWageBuilder{
-
-    public static final int EMP_ABSENT = 0;
-    public static final int EMP_FULL_TIME = 1;
-    public static final int EMP_PART_TIME= 2;
-
-    public static void calculateTotalWage(Employee employee) {
-        System.out.println("------------------------------------------------");
-        employee.getInfo();
-        System.out.println("------------------------------------------------");
-        int dailyWage = 0, totalWage = 0, dayCount = 0, hourCount = 0, maxHours = 100, maxDays = 20;
-          while(dayCount < maxDays || hourCount < maxHours){
-             switch(employee.getEmpStatus()){
-                    case EMP_ABSENT:
-                        System.out.println("Employee is absent");
-                        break;
-                    case EMP_FULL_TIME:
-                        dailyWage = employee.getDailyWage(employee.EMP_WAGE_PER_HR, employee.EMP_FULL_TIME_HRS);
-                        System.out.println("daily wage of full time employee: " + dailyWage);
-                        hourCount = employee.increamentWorkingHrs(employee.EMP_FULL_TIME_HRS);
-                        break;
-                    case EMP_PART_TIME:
-                        dailyWage= employee.getDailyWage(employee.EMP_WAGE_PER_HR, employee.EMP_PART_TIME_HRS);
-                        System.out.println("daily wage of part time employee: " + dailyWage);
-                        hourCount = employee.increamentWorkingHrs(employee.EMP_PART_TIME_HRS);
-                        break;
-                }
-                totalWage = employee.increamentWage(dailyWage);
-                dayCount++;
-       
-        }
-        System.out.println("total wage of employee is: " + totalWage);
-    }
-    public static void main(String[] args) {
-       
-        Employee employee1 = new RelianceEmployee();
-        calculateTotalWage(employee1);
-        Employee employee2 = new DmartEmployee();
-        calculateTotalWage(employee2);
-
-    
-    }
-}
-
